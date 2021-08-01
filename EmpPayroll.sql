@@ -21,3 +21,8 @@ Insert into employee_payroll values ('Ajith',30000,'2021-08-01','ajith@asdf.com'
 --Uc4--
 --Select data--
 Select * from employee_payroll;
+
+--Uc5--
+--Select particular data--
+Select name,salary from employee_payroll where name='Diwakar';
+Select name,salary from employee_payroll where startDate between ('2021-05-01') and getdate(); 
