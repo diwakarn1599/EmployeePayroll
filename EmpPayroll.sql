@@ -25,4 +25,15 @@ Select * from employee_payroll;
 --Uc5--
 --Select particular data--
 Select name,salary from employee_payroll where name='Diwakar';
-Select name,salary from employee_payroll where startDate between ('2021-05-01') and getdate(); 
+Select name,salary from employee_payroll where startDate between ('2021-05-01') and getdate();
+
+--Uc6--
+--Alter and update data--
+alter table employee_payroll add Gender char(1);
+
+--Update--
+update employee_payroll set Gender='M' where name='Diwakar' or name='Ajith' or name='Vijay' or name='Rajini';
+update employee_payroll set Gender='F' where name='Nayantara';
+
+select * from employee_payroll;
+
