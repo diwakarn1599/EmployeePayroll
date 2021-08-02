@@ -50,3 +50,31 @@ Select Gender,Min(salary)as MinSalary from employee_payroll where Gender='F' gro
  Select Gender,Avg(salary)as AvgSalary from employee_payroll where Gender='F' group by Gender;
  --Count--
  Select Gender, count(Gender)as Count from employee_payroll group by Gender order by Gender DESC;
+
+ --Uc8--
+ alter table employee_payroll add Department varchar(20) not null default 'Devs';
+ alter table employee_payroll add PhoneNumber bigint;
+
+update employee_payroll set PhoneNumber=9876543210 where name='Diwakar';
+update employee_payroll set PhoneNumber=4567891230 where name='Ajith';
+update employee_payroll set PhoneNumber=6549873210 where name='Vijay';
+update employee_payroll set PhoneNumber=1238527964 where name='Rajini';
+update employee_payroll set PhoneNumber=7418529630 where name='Nayantara';
+update employee_payroll set PhoneNumber=7418529630 where name='Trisha';
+
+update employee_payroll set Department='Finance' where name='Ajith';
+update employee_payroll set Department='Testing' where name='Vijay';
+update employee_payroll set Department='QA' where name='Rajini';
+update employee_payroll set Department='ASE' where name='Nayantara';
+update employee_payroll set Department='HR' where name='Trisha';
+
+alter table employee_payroll add Address varchar(25) default 'NIL';
+
+update employee_payroll set Address='Ambattur' where name='Diwakar';
+update employee_payroll set Address='MKB' where name='Ajith';
+update employee_payroll set Address='Egmore' where name='Vijay';
+update employee_payroll set Address='Avadi' where name='Rajini';
+update employee_payroll set Address='Teynampet' where name='Nayantara';
+update employee_payroll set Address='chetpet' where name='Trisha';
+
+select * from employee_payroll;
