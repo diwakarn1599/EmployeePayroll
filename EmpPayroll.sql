@@ -103,3 +103,8 @@ update employee_payroll set NetPay=12000 where name='Trisha';
 update employee_payroll set IncomeTax=5000;
 
 update employee_payroll set TaxablePay=35000;
+
+--UC10--
+Insert into employee_payroll values('Diwakar',25000,'2020-12-15','dn@gmail.com','M','Dev',7410852963,'Chennai',500,35000,5000,15500);
+
+---------------------------------------------------------------------------------------
