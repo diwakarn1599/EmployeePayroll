@@ -108,3 +108,130 @@ update employee_payroll set TaxablePay=35000;
 Insert into employee_payroll values('Diwakar',25000,'2020-12-15','dn@gmail.com','M','Dev',7410852963,'Chennai',500,35000,5000,15500);
 
 ---------------------------------------------------------------------------------------
+
+--Using Er Diagram--
+--Creating Dept table
+create table Department(
+	DeptId int identity(1,1) Primary key,
+	DeptName varchar(30)
+);
+--Creating Company table
+create table Company(
+	CompanyId int identity(1,1) Primary key,
+	CompanyName varchar(30)
+);
+
+--Creating Employee Table
+create table Employee(
+	EmpId int identity(1,1) Primary key,
+	CompanyId int FOREIGN KEY REFERENCES Company(CompanyId),
+	EmpName varchar(30),
+	PhoneNumber bigint,
+	EmpAddress varchar(50),
+	StartDate date,
+	Gender char(1)
+);
+-------------
+create table Payroll(
+	EmpId int FOREIGN KEY REFERENCES Employee(EmpId),
+	BasicPay float,
+	TaxablePay float,
+	IncomeTax float,
+	NetPay float,
+	Deductions float
+);
+--------
+create table EmpDept(
+	EmpId int FOREIGN KEY REFERENCES Employee(EmpId),
+	DeptId int FOREIGN KEY REFERENCES Department(DeptId),
+);
+-----------
+INSERT INTO Company values('Tvs'),('Zoho'),('HCL');
+
+SELECT * FROM Company;
+
+-------------
+Insert into Employee values (1,'Diwakar',9874563210,'Chennai','2020-12-15','M');
+Insert into Employee values (2,'Gayathri',8574563210,'Avadi','2019-3-13','F'),(3,'Dhoni',8522563210,'Ranchi','2005-7-17','M'),(1,'Kohli',8214563210,'Mumbai','2010-5-11','M');
+SELECT * FROM Employee;
+
+
+----
+INSERT INTO Payroll(EmpId,BasicPay,IncomeTax,Deductions) Values (1,30000,1000,800),(2,40000,1000,800),(3,50000,1000,800),(4,60000,1000,800);
+SELECT * FROM Payroll;
+--Updating taxable pay based on basic pay - deductions
+Update Payroll set TaxablePay=BasicPay-Deductions;
+--Updating Netpay based on taxablepay-incometax
+Update Payroll set NetPay=TaxablePay-IncomeTax;
+
+
+---------------------------------------------------------------------------
+INSERT INTO Department values('Devs'),('IT'),('Finance'),('HR');
+SELECT * FROM Department;
+
+---------------------------------------------------------------------------
+INSERT INTO EmpDept values(1,1),(2,2),(3,3),(4,1);
+SELECT * FROM EmpDept;
+
+------------------------Retrieve data--------------------------------------
+SELECT c.CompanyID,c.CompanyName,emp.EmpId,emp.EmpName,emp.PhoneNumber,emp.StartDate,emp.Gender,
+p.BasicPay,p.TaxablePay,p.IncomeTax,p.NetPay,p.Deductions,d.DeptId,d.DeptName
+FROM Company AS c
+INNER JOIN Employee AS emp ON c.CompanyId=emp.CompanyId
+INNER JOIN Payroll AS p ON p.EmpId = emp.EmpId
+INNER JOIN EmpDept ON EmpDept.EmpId = emp.EmpId
+INNER JOIN Department as d ON d.DeptId = EmpDept.DeptId;
+
+----Retrive using emp name--------------------------------------------------
+SELECT c.CompanyID,c.CompanyName,emp.EmpId,emp.EmpName,emp.PhoneNumber,emp.StartDate,emp.Gender
+FROM Company AS c 
+INNER JOIN Employee AS emp 
+ON
+c.CompanyId = emp.CompanyId AND emp.EmpName='Diwakar';
+----------------------------------------------------------------------------
+SELECT c.CompanyID,c.CompanyName,emp.EmpId,emp.EmpName,emp.PhoneNumber,emp.StartDate,emp.Gender
+FROM Company AS c 
+INNER JOIN Employee AS emp 
+ON c.CompanyId = emp.CompanyId AND emp.StartDate BETWEEN ('2019-05-01') AND getdate();
+
+--AGGREGATE FUNCTIONS
+----------------------------------------------------------------------------
+SELECT SUM(p.BasicPay) as TotalSalary,emp.Gender
+FROM Employee AS emp
+INNER JOIN
+Payroll as p ON
+emp.EmpId = p.EmpId
+GROUP BY Gender
+ORDER BY Gender DESC;
+---------------------------------------------------------------------------
+SELECT AVG(p.BasicPay) as AVERAGESalary,emp.Gender
+FROM Employee AS emp
+INNER JOIN
+Payroll as p ON
+emp.EmpId = p.EmpId
+GROUP BY Gender
+ORDER BY Gender DESC;
+---------------------------------------------------------------------------
+SELECT MIN(p.BasicPay) as MINSalary,emp.Gender
+FROM Employee AS emp
+INNER JOIN
+Payroll as p ON
+emp.EmpId = p.EmpId
+GROUP BY Gender
+ORDER BY Gender DESC;
+-------------------------------------------------------------------------------
+SELECT MAX(p.BasicPay) as MAXSalary,emp.Gender
+FROM Employee AS emp
+INNER JOIN
+Payroll as p ON
+emp.EmpId = p.EmpId
+GROUP BY Gender
+ORDER BY Gender DESC;
+-------------------------------------------------------------------------------
+SELECT COUNT(p.BasicPay) as COUNTPersons,emp.Gender
+FROM Employee AS emp
+INNER JOIN
+Payroll as p ON
+emp.EmpId = p.EmpId
+GROUP BY Gender
+ORDER BY Gender DESC;
