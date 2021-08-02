@@ -78,3 +78,28 @@ update employee_payroll set Address='Teynampet' where name='Nayantara';
 update employee_payroll set Address='chetpet' where name='Trisha';
 
 select * from employee_payroll;
+
+
+--UC9--
+--Rename column ---
+EXEC sp_RENAME 'employee_payroll.salary','BasicPay','COLUMN';
+--Add columns--
+alter table employee_payroll add Deductions float,TaxablePay float,IncomeTax float,NetPay float;
+
+update employee_payroll set Deductions=500 where Department='Devs';
+update employee_payroll set Deductions=700 where Department='Finance'
+update employee_payroll set Deductions=200 where Department='Testing';
+update employee_payroll set Deductions=570 where Department='QA' ;
+update employee_payroll set Deductions=222 where Department='ASE';
+update employee_payroll set Deductions=722 where Department='HR';
+
+update employee_payroll set NetPay=20000 where name='Diwakar';
+update employee_payroll set NetPay=21000 where name='Ajith';
+update employee_payroll set NetPay=30000 where name='Vijay';
+update employee_payroll set NetPay=27000 where name='Rajini';
+update employee_payroll set NetPay=32000 where name='Nayantara';
+update employee_payroll set NetPay=12000 where name='Trisha';
+
+update employee_payroll set IncomeTax=5000;
+
+update employee_payroll set TaxablePay=35000;
